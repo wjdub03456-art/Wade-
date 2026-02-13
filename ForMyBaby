@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Surprise for Wade</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #ffdae0;
+            overflow: hidden;
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+        }
+
+        /* Initial Envelope */
+        #envelope {
+            width: 200px;
+            height: 140px;
+            background-color: #d63384;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            cursor: pointer;
+            color: white;
+            font-size: 1.5rem;
+            transition: transform 0.3s;
+        }
+        #envelope:hover { transform: scale(1.1); }
+
+        /* Revealed Content */
+        #content {
+            display: none;
+            z-index: 2;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 30px;
+            backdrop-filter: blur(8px);
+            border: 2px solid white;
+            max-width: 80%;
+        }
+
+        h1 { color: #d63384; font-size: 3rem; margin: 0; }
+        p { color: #b02a6b; font-size: 2rem; font-family: 'Great Vibes', cursive; }
+
+        /* Buttons */
+        .btn-container {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-family: 'Dancing Script', cursive;
+            transition: 0.3s;
+        }
+
+        #yesBtn { background-color: #ff4d6d; color: white; }
+        #noBtn { background-color: #888; color: white; position: absolute; }
+
+        /* Falling Roses */
+        .rose {
+            position: absolute;
+            top: -10%;
+            animation: fall linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="envelope" onclick="revealSurprise()">Click Me Wade ❤️</div>
+
+    <div id="content">
+        <h1>Happy Valentine's Day <br> my baby Wade</h1>
+        <p>I Love You Always and Forever</p>
+        <p style="font-size: 1.5rem;">Will you be my Valentine?</p>
+        
+        <div class="btn-container">
+            <button class="btn" id="yesBtn" onclick="sayYes()">Yes! ❤️</button>
+            <button class="btn" id="noBtn" onmouseover="moveNo()">No</button>
+        </div>
+    </div>
+
+    <script>
+        function revealSurprise() {
+            document.getElementById('envelope').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+            setInterval(createRose, 300);
+            
+            // Initial position for NO button
+            const noBtn = document.getElementById('noBtn');
+            noBtn.style.left = (window.innerWidth / 2 + 50) + 'px';
+            noBtn.style.top = (window.innerHeight / 2 + 100) + 'px';
+        }
+
+        function moveNo() {
+            const noBtn = document.getElementById('noBtn');
+            // Move it to a random spot
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 50);
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        }
+
+        function sayYes() {
+            document.getElementById('content').innerHTML = "<h1>Yay! I knew it!</h1><p>I love you so much, Wade! ❤️✨</p>";
+            // Make it rain even more hearts
+            setInterval(createRose, 100);
+        }
+
+        function createRose() {
+            const rose = document.createElement('div');
+            rose.className = 'rose';
+            const icons = ['🌹', '🌸', '❤️', '💖'];
+            rose.innerText = icons[Math.floor(Math.random() * icons.length)];
+            rose.style.left = Math.random() * 100 + 'vw';
+            rose.style.animationDuration = (Math.random() * 2 + 3) + 's';
+            rose.style.fontSize = (Math.random() * 20 + 20) + 'px';
+            document.body.appendChild(rose);
+            setTimeout(() => rose.remove(), 5000);
+        }
+    </script>
+</body>
+</html>
